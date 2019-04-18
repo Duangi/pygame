@@ -1,0 +1,10 @@
+1.在出生点显示player
+2.显示home
+3.实现tank移动的‘特效’
+4.实现tank的移动以及边界碰撞检测
+#移动就是更新实例的rect 以便于在下一次update图像的时候实时更新tank的图片以形成动画的效果
+	question ：a.移动时速度过快->为循环设置一个clock = pygame.time.Clock() 
+					       clock.tick(60)#每秒钟60帧
+		b.移动时有动画残留 ->需要定义Map 并在每一次循环的时候刷新一遍地图
+		c.按W的时候player2也在动  ->需要设定判断条件判断当前应该归谁动
+		d.在碰到边界之后tank就不能动了  ->需要使用到rect.bottom  rect.
