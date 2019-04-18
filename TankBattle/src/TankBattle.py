@@ -5,6 +5,7 @@ from pygame.locals import *
 import sys
 import tanks
 import home
+import scene
 
 def main():
     #初始化
@@ -18,7 +19,8 @@ def main():
     #游戏玩家数量
     num_player = 2
     #关卡
-    stage = 0
+    stage = 1
+    num_stage = 2
     #定义是否GG
     is_gameover = False
     #用来控制tank什么时候变换状态
@@ -28,11 +30,13 @@ def main():
     player2_moving = False
     #主循环
     while not is_gameover:
-        
+        #stage += 2
         
         #home
         myhome = home.Home()
-        screen.blit(myhome.home,myhome.rect)
+        
+        #map
+        stage_map = scene.Map(stage)
         #创建精灵组
         tanksGroup = pygame.sprite.Group()
         mytanksGroup = pygame.sprite.Group()
@@ -56,6 +60,23 @@ def main():
                     exit()
             #背景
             screen.blit(bg_img,(0,0))
+            #home
+            screen.blit(myhome.home,myhome.rect)
+            #石头墙 
+            for each in stage_map.brickGroup:
+                screen.blit(each.brick,each.rect)
+            #钢墙
+            for each in stage_map.ironGroup:
+                screen.blit(each.iron,each.rect)
+            #冰
+            for each in stage_map.iceGroup:
+                screen.blit(each.ice,each.rect)
+            #河流
+            for each in stage_map.riverGroup:
+                screen.blit(each.river,each.rect)
+            #树
+            for each in stage_map.treeGroup:
+                screen.blit(each.tree,each.rect)
             #设置每刷新n次tank的状态就变一次
             time += 1
             if time == 5:
@@ -70,13 +91,13 @@ def main():
             if key_pressed[pygame.K_w]:
                 tank_player1.move_up()
                 player1_moving = True  #在这里每次都把moving改成True 在blit之后又改为False 可以实现moving的值交替循环 使得每次刷新都blit不一样的贴图 以达成动画效果 
-            if key_pressed[pygame.K_s]:
+            elif key_pressed[pygame.K_s]:
                 tank_player1.move_down()
                 player1_moving = True
-            if key_pressed[pygame.K_a]:
+            elif key_pressed[pygame.K_a]:
                 tank_player1.move_left()
                 player1_moving = True
-            if key_pressed[pygame.K_d]:
+            elif key_pressed[pygame.K_d]:
                 tank_player1.move_right()
                 player1_moving = True
             
@@ -85,16 +106,16 @@ def main():
             #小键盘'0'键射击
             if key_pressed[pygame.K_UP]:
                 tank_player2.move_up()
-                player1_moving = True  #在这里每次都把moving改成True 在blit之后又改为False 可以实现moving的值交替循环 使得每次刷新都blit不一样的贴图 以达成动画效果 
-            if key_pressed[pygame.K_DOWN]:
+                player2_moving = True  #在这里每次都把moving改成True 在blit之后又改为False 可以实现moving的值交替循环 使得每次刷新都blit不一样的贴图 以达成动画效果 
+            elif key_pressed[pygame.K_DOWN]:
                 tank_player2.move_down()
-                player1_moving = True
-            if key_pressed[pygame.K_LEFT]:
+                player2_moving = True
+            elif key_pressed[pygame.K_LEFT]:
                 tank_player2.move_left()
-                player1_moving = True
-            if key_pressed[pygame.K_RIGHT]:
+                player2_moving = True
+            elif key_pressed[pygame.K_RIGHT]:
                 tank_player2.move_right()
-                player1_moving = True
+                player2_moving = True
             # 我方坦克
             if need_switch_tank and player1_moving:
                 screen.blit(tank_player1.tank_0, (tank_player1.rect.left, tank_player1.rect.top))
@@ -105,7 +126,7 @@ def main():
             if num_player > 1:
                 if need_switch_tank and player2_moving:
                     screen.blit(tank_player2.tank_0, (tank_player2.rect.left, tank_player2.rect.top))
-                    player1_moving = False
+                    player2_moving = False
                 else:
                     screen.blit(tank_player2.tank_1, (tank_player2.rect.left, tank_player2.rect.top))
                     
