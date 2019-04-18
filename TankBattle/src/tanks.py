@@ -42,7 +42,7 @@ class myTank(pygame.sprite.Sprite):
         #有多少条命
         self.life = 3
         
-    def move_up(self):
+    def move_up(self,tanksGroup,brickGroup,ironGroup,myhome):
         #当tank即将向上移动时，应该调整它的x，y轴方向上的数值为0，-1
         self.direction_x,self.direction_y = 0,-1
         
@@ -58,9 +58,21 @@ class myTank(pygame.sprite.Sprite):
             #当到达顶端时，用朝负方向移动一次的方法来抵消掉之前的移动，这样就停在原地了
             self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
             is_movable = False
+        #撞石头/钢墙
+        if pygame.sprite.spritecollide(self, brickGroup, False, None) or \
+           pygame.sprite.spritecollide(self,ironGroup,False,None):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_movable = False
+        # 撞其他坦克
+        if pygame.sprite.spritecollide(self, tanksGroup, False, None):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_move = False
+        #撞到home
+        if pygame.sprite.collide_rect(self, myhome):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_movable = False
         return is_movable
-    
-    def move_down(self):
+    def move_down(self,tanksGroup,brickGroup,ironGroup,myhome):
         #当tank即将向下移动时，应该调整它的x，y轴方向上的数值为0，1
         self.direction_x,self.direction_y = 0,1
         
@@ -76,9 +88,21 @@ class myTank(pygame.sprite.Sprite):
             #当到达顶端时，用朝负方向移动一次的方法来抵消掉之前的移动，这样就停在原地了
             self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
             is_movable = False
+        #撞石头/钢墙
+        if pygame.sprite.spritecollide(self, brickGroup, False, None) or \
+           pygame.sprite.spritecollide(self,ironGroup,False,None):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_movable = False
+        # 撞其他坦克
+        if pygame.sprite.spritecollide(self, tanksGroup, False, None):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_move = False
+        #撞到home
+        if pygame.sprite.collide_rect(self, myhome):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_movable = False
         return is_movable
-        
-    def move_left(self):
+    def move_left(self,tanksGroup,brickGroup,ironGroup,myhome):
         #当tank即将向左移动时，应该调整它的x，y轴方向上的数值为-1，0
         self.direction_x,self.direction_y = -1,0
         
@@ -94,9 +118,21 @@ class myTank(pygame.sprite.Sprite):
             #当到达顶端时，用朝负方向移动一次的方法来抵消掉之前的移动，这样就停在原地了
             self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
             is_movable = False
-        return is_movable    
-    
-    def move_right(self):
+        #撞石头/钢墙
+        if pygame.sprite.spritecollide(self, brickGroup, False, None) or \
+           pygame.sprite.spritecollide(self,ironGroup,False,None):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_movable = False
+        # 撞其他坦克
+        if pygame.sprite.spritecollide(self, tanksGroup, False, None):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_move = False
+        #撞到home
+        if pygame.sprite.collide_rect(self, myhome):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_movable = False
+        return is_movable
+    def move_right(self,tanksGroup,brickGroup,ironGroup,myhome):
         #当tank即将向右移动时，应该调整它的x，y轴方向上的数值为1，0
         self.direction_x,self.direction_y = 1,0
         
@@ -111,7 +147,19 @@ class myTank(pygame.sprite.Sprite):
         if self.rect.right > 630 - 3:
             #当到达顶端时，用朝负方向移动一次的方法来抵消掉之前的移动，这样就停在原地了
             self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_movable = False   
+        #撞石头/钢墙
+        if pygame.sprite.spritecollide(self, brickGroup, False, None) or \
+           pygame.sprite.spritecollide(self,ironGroup,False,None):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
             is_movable = False
-        return is_movable     
-        
+        # 撞其他坦克
+        if pygame.sprite.spritecollide(self, tanksGroup, False, None):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_move = False
+        #撞到home
+        if pygame.sprite.collide_rect(self, myhome):
+            self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
+            is_movable = False
+        return is_movable
         

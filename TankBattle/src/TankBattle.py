@@ -89,32 +89,48 @@ def main():
             #WSAD -> 上下左右
             #空格键射击
             if key_pressed[pygame.K_w]:
-                tank_player1.move_up()
+                tanksGroup.remove(tank_player1)
+                tank_player1.move_up(tanksGroup,stage_map.brickGroup,stage_map.ironGroup,myhome)
+                tanksGroup.add(tank_player1)
                 player1_moving = True  #在这里每次都把moving改成True 在blit之后又改为False 可以实现moving的值交替循环 使得每次刷新都blit不一样的贴图 以达成动画效果 
             elif key_pressed[pygame.K_s]:
-                tank_player1.move_down()
+                tanksGroup.remove(tank_player1)
+                tank_player1.move_down(tanksGroup,stage_map.brickGroup,stage_map.ironGroup,myhome)
+                tanksGroup.add(tank_player1)
                 player1_moving = True
             elif key_pressed[pygame.K_a]:
-                tank_player1.move_left()
+                tanksGroup.remove(tank_player1)
+                tank_player1.move_left(tanksGroup,stage_map.brickGroup,stage_map.ironGroup,myhome)
+                tanksGroup.add(tank_player1)
                 player1_moving = True
             elif key_pressed[pygame.K_d]:
-                tank_player1.move_right()
+                tanksGroup.remove(tank_player1)
+                tank_player1.move_right(tanksGroup,stage_map.brickGroup,stage_map.ironGroup,myhome)
+                tanksGroup.add(tank_player1)
                 player1_moving = True
             
             #player2
             #上下左右键控制
             #小键盘'0'键射击
             if key_pressed[pygame.K_UP]:
-                tank_player2.move_up()
+                tanksGroup.remove(tank_player2)
+                tank_player2.move_up(tanksGroup,stage_map.brickGroup,stage_map.ironGroup,myhome)
+                tanksGroup.add(tank_player2)
                 player2_moving = True  #在这里每次都把moving改成True 在blit之后又改为False 可以实现moving的值交替循环 使得每次刷新都blit不一样的贴图 以达成动画效果 
             elif key_pressed[pygame.K_DOWN]:
-                tank_player2.move_down()
+                tanksGroup.remove(tank_player2)
+                tank_player2.move_down(tanksGroup,stage_map.brickGroup,stage_map.ironGroup,myhome)
+                tanksGroup.add(tank_player2)
                 player2_moving = True
             elif key_pressed[pygame.K_LEFT]:
-                tank_player2.move_left()
+                tanksGroup.remove(tank_player2)
+                tank_player2.move_left(tanksGroup,stage_map.brickGroup,stage_map.ironGroup,myhome)
+                tanksGroup.add(tank_player2)
                 player2_moving = True
             elif key_pressed[pygame.K_RIGHT]:
-                tank_player2.move_right()
+                tanksGroup.remove(tank_player2)
+                tank_player2.move_right(tanksGroup,stage_map.brickGroup,stage_map.ironGroup,myhome)
+                tanksGroup.add(tank_player2)
                 player2_moving = True
             # 我方坦克
             if need_switch_tank and player1_moving:
