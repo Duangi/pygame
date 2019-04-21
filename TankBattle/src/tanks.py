@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 import sys
+from bullet import Bullet
 #pygame中所有显示图像的对象叫做 sprite 精灵
 class myTank(pygame.sprite.Sprite):
     def __init__(self,player):
@@ -162,4 +163,10 @@ class myTank(pygame.sprite.Sprite):
             self.rect = self.rect.move(self.speed*-self.direction_x, self.speed*-self.direction_y)
             is_movable = False
         return is_movable
+    def shoot(self,mybulletsGroup):
+        #新建一颗子弹，并将位置和方向信息传给子弹
+        new_bullet = Bullet(self)
+        new_bullet.being = True
+        #在精灵组中添加一颗子弹
+        mybulletsGroup.add(new_bullet)
         

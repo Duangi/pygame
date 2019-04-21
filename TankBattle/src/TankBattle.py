@@ -6,6 +6,7 @@ import sys
 import tanks
 import home
 import scene
+import bullet
 
 def main():
     #初始化
@@ -24,10 +25,13 @@ def main():
     #定义是否GG
     is_gameover = False
     #用来控制tank什么时候变换状态
-    time = 0
+    switch_time = 0
     need_switch_tank = False
     player1_moving = False
     player2_moving = False
+    #坦克的射击间隔
+    could_shoot = True
+    shoot_space = 0
     #主循环
     while not is_gameover:
         #stage += 2
@@ -40,6 +44,11 @@ def main():
         #创建精灵组
         tanksGroup = pygame.sprite.Group()
         mytanksGroup = pygame.sprite.Group()
+        enemytanksGroup = pygame.sprite.Group()
+        
+        bulletsGroup = pygame.sprite.Group()
+        mybulletsGroup = pygame.sprite.Group()
+        enemybulletsGroup = pygame.sprite.Group()
         
         #创建player1实例并加入精灵组
         tank_player1 = tanks.myTank(1)
@@ -78,11 +87,15 @@ def main():
             for each in stage_map.treeGroup:
                 screen.blit(each.tree,each.rect)
             #设置每刷新n次tank的状态就变一次
-            time += 1
-            if time == 5:
-                time = 0
+            switch_time += 1
+            if switch_time == 5:
+                switch_time = 0
                 need_switch_tank = not need_switch_tank
-            
+            #刷新射击间隔
+            shoot_space += 1
+            if shoot_space == 15:
+                could_shoot = True
+                shoot_space = 0
             #获得玩家的键盘输入值
             key_pressed = pygame.key.get_pressed()
             #player1 
@@ -108,7 +121,10 @@ def main():
                 tank_player1.move_right(tanksGroup,stage_map.brickGroup,stage_map.ironGroup,myhome)
                 tanksGroup.add(tank_player1)
                 player1_moving = True
-            
+            if key_pressed[pygame.K_SPACE]:
+                if could_shoot:
+                    tank_player1.shoot(mybulletsGroup)
+                    could_shoot = False
             #player2
             #上下左右键控制
             #小键盘'0'键射击
@@ -132,7 +148,11 @@ def main():
                 tank_player2.move_right(tanksGroup,stage_map.brickGroup,stage_map.ironGroup,myhome)
                 tanksGroup.add(tank_player2)
                 player2_moving = True
-            # 我方坦克
+            if key_pressed[pygame.K_KP0]:
+                if could_shoot:
+                    tank_player2.shoot(mybulletsGroup)
+                    could_shoot = False
+            # blit我方坦克
             if need_switch_tank and player1_moving:
                 screen.blit(tank_player1.tank_0, (tank_player1.rect.left, tank_player1.rect.top))
                 player1_moving = False
@@ -145,7 +165,17 @@ def main():
                     player2_moving = False
                 else:
                     screen.blit(tank_player2.tank_1, (tank_player2.rect.left, tank_player2.rect.top))
-                    
+            
+            #我方子弹
+            for each_bullet in mybulletsGroup:
+                if each_bullet.being == True:
+                    each_bullet.move()
+                    screen.blit(each_bullet.bullet,each_bullet.rect)
+                    #碰撞土墙brick
+                    if pygame.sprite.spritecollide(each_bullet, stage_map.brickGroup, True, None):
+                        each_bullet.being = False
+                else :
+                    mybulletsGroup.remove(each_bullet)
             #循环的最后一个操作：刷新屏幕
             pygame.display.flip()
             clock.tick(60)
